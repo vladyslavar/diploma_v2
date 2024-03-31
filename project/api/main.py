@@ -1,6 +1,6 @@
 from aiohttp import web
 from routes import setup_routes
-from docker.db.db_connection import get_db_connection, close_db_connection
+from db_connection import get_db_connection, close_db_connection
 
 async def on_startup(app):
     app['db_connection'] = await get_db_connection()
