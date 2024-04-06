@@ -1,5 +1,5 @@
 version: "3.9"
-name: "error_handler__database"
+name: "error_handler_database"
 services:
   postgres_db:
     image: postgres:latest
@@ -11,7 +11,7 @@ services:
       POSTGRES_DB: error_handler_db
     volumes:
       - diploma_postgres_data:/var/lib/postgresql/data
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/structure.sql
+      - ../db/schema.sql:/docker-entrypoint-initdb.d/structure.sql
     ports:
       - "5432:5432"
     networks:
@@ -35,7 +35,7 @@ services:
   
   api:
     container_name: error_handler_api
-    build: ..
+    build: ../api/
     restart: always
     ports:
       - "8080:8080"

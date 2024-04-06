@@ -1,10 +1,10 @@
 from aiohttp import web
+from error_handler_diploma import test
 
 async def index(request):
+    test.some_method()
     return web.Response(text="Hello, world")
 
-# async def greet(request):
-#     return web.Response(text="hello, buddy!")
 
 async def post(request):
     try:
@@ -18,3 +18,14 @@ async def post(request):
         return web.Response(text="Success")
     except KeyError:
         return web.Response(text="Missing error_code or error_message", status=400)
+    
+
+async def data_structure(request):
+    try:
+        data = await request.json()
+        name = data['name']
+        username = data['user']['username']
+
+        return web.Response(text=f"Hello, {name}! Your username is {username}.")
+    except KeyError:
+        return web.Response(text="Missing data", status=400)
