@@ -16,7 +16,8 @@ async def get_user_account(request):
             response = await request.app['db_connection'].fetchrow('''
                 SELECT * FROM user_account WHERE username = $1
             ''', username)
-            return web.json_response(response)
+            json_response = dict(response)
+            return web.json_response(json_response)
         else:
             return web.Response(text="Incorrect password", status=400)
     except KeyError:
@@ -28,6 +29,13 @@ async def create_user_account(request):
         data = await request.json()
         username = data['username']
         password = data['password']
+
+        existing_username = await request.app['db_connection'].fetchval('''
+            SELECT username FROM user_account WHERE username = $1
+        ''', username)
+        if existing_username is not None:
+            return web.Response(text="Username already exists", status=400)
+        
         await request.app['db_connection'].execute('''
             INSERT INTO user_account (username, password)
             VALUES ($1, $2)
