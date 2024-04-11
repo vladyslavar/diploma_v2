@@ -1,6 +1,8 @@
 from views.test import *
 from views.user_views import *
 from views.organization_views import *
+from views.app_views import *
+from views.user_organization_access_views import *
 
 
 def setup_routes(app):
@@ -19,3 +21,15 @@ def setup_routes(app):
     app.router.add_put('/update_organization_name', update_organization_name)
     app.router.add_put('/update_organization_owner', update_organization_owner)
     app.router.add_delete('/delete_organization', delete_organization)
+    #user_organization_access
+    app.router.add_get('/users_organization', get_user_organization_access)
+    app.router.add_get('/organization_users', get_organization_users)
+    app.router.add_post('/grant_access', grant_user_organization_access)
+    app.router.add_delete('/revoke_access', revoke_user_organization_access)
+    #app
+    app.router.add_get('/apps', get_available_apps)
+    app.router.add_post('/register_app', register_app)
+    app.router.add_put('/update_app_name', update_app_name)
+    app.router.add_put('/update_app_key', update_app_api_key)
+    app.router.add_delete('/delete_app', delete_app)
+
