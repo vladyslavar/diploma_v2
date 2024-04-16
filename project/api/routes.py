@@ -3,6 +3,9 @@ from views.user_views import *
 from views.organization_views import *
 from views.app_views import *
 from views.user_organization_access_views import *
+from views.common_event_views import *
+from views.event_views import *
+from views.event_parameter_views import *
 
 
 def setup_routes(app):
@@ -10,6 +13,7 @@ def setup_routes(app):
     app.router.add_get('/', index)
     app.router.add_post('/post', post)
     app.router.add_post('/data_structure', data_structure)
+    app.router.add_get('/error', error)
     #user
     app.router.add_get('/login', get_user_account)
     app.router.add_post('/create_account', create_user_account)
@@ -32,4 +36,21 @@ def setup_routes(app):
     app.router.add_put('/update_app_name', update_app_name)
     app.router.add_put('/update_app_key', update_app_api_key)
     app.router.add_delete('/delete_app', delete_app)
+    #common events
+    app.router.add_get('/common_events', get_common_events)
+    app.router.add_post('/create_common_event', create_common_event)
+    app.router.add_put('/update_common_event', update_common_event)
+    app.router.add_delete('/delete_common_event', delete_common_event)
+    #custom events
+    app.router.add_get('/events', get_all_events)
+    app.router.add_get('/event', get_event)
+    app.router.add_post('/add_custom_events', add_custom_event)
+    app.router.add_delete('/delete_custom_event', delete_custom_event)
+    #event parameters
+    app.router.add_get('/event_parameters', get_event_parameters)
+    app.router.add_post('/add_event_parameter', add_event_parameter)
+    app.router.add_put('/update_event_parameter', update_event_parameter_value)
+    app.router.add_delete('/delete_event_parameter', delete_event_parameter)
+
+
 

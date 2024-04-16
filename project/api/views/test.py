@@ -29,3 +29,7 @@ async def data_structure(request):
         return web.Response(text=f"Hello, {name}! Your username is {username}.")
     except KeyError:
         return web.Response(text="Missing data", status=400)
+    
+
+async def error(request):
+    return web.HTTPNotFound(text="Not Found")
