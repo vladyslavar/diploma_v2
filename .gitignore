@@ -4,6 +4,7 @@ project/api/__pycache__/
 library/build/
 library/dist/
 library/*.egg-info/
+project/client/node_modules/*
 
 
 

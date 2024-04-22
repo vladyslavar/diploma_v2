@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+</head>
+<body>
+    <div class="container">
+        <div class="side_menu">
+            <h1>EHApp</h1>
+            <ul>
+                <li><a href="/home">Home</a></li>
+            </ul>
+            <ul>
+                <li><a href="/applications">Applications</a></li>
+                <li><a href="/organization">Organization</a></li>
+            </ul>
+            <ul>
+                <li><a href="/keys">Keys</a></li>
+                <li><a href="/management">Management</a></li>
+            </ul>
+            <ul>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <% if (available_organizations.length > 0) { %>
+                <h2>Available organizations</h2>
+                <ul>
+                    <% available_organizations.forEach((org, index) => { %>
+                        <li>
+                            <a href="/organization/<%= org.id %>"><%= org.name %></a>
+                            <ul>
+                                <% available_apps[index].forEach(app => { %>
+                                    <li><%= app.name %></li>
+                                <% }) %>
+                            </ul>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } %>
+            
+            
+        </div>
+    </div>
+    
+</body>
+</html>

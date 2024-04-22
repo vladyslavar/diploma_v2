@@ -3,9 +3,8 @@ from aiohttp import web
 # APPS
 async def get_available_apps(request):
     try:
-        data = await request.json()
-        organization_id = data['organization_id']
-        user_id = data['user_id']
+        organization_id = int(request.query.get('organization_id'))
+        user_id = int(request.query.get('user_id'))
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1

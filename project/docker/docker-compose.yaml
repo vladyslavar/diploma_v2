@@ -15,7 +15,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      db_network:
+      common_network:
 
 
   pgadmin:
@@ -30,7 +30,7 @@ services:
     ports:
       - "5050:80"
     networks:
-      db_network:
+      common_network:
 
   
   api:
@@ -40,13 +40,23 @@ services:
     ports:
       - "8080:8080"
     networks:
-      db_network:
+      common_network:
     depends_on:
       - postgres_db
 
 
+  web_client:
+    container_name: error_handler_web_client
+    build: ../client/
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      common_network:
+
+
 networks:
-  db_network:
+  common_network:
 
 
 volumes:

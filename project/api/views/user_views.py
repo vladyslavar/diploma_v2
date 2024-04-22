@@ -3,9 +3,8 @@ from aiohttp import web
 # USER ACCOUNTS
 async def get_user_account(request):
     try:
-        data = await request.json()
-        username = data['username']
-        password = data['password']
+        username = request.query.get('username')
+        password = request.query.get('password')
         actual_password = await request.app['db_connection'].fetchval('''
             SELECT password FROM user_account WHERE username = $1
         ''', username)
@@ -17,7 +16,8 @@ async def get_user_account(request):
                 SELECT * FROM user_account WHERE username = $1
             ''', username)
             json_response = dict(response)
-            return web.json_response(json_response)
+            return web.json_response({'status': 'success',
+                                      'user_account': json_response})
         else:
             return web.Response(text="Incorrect password", status=400)
     except KeyError:

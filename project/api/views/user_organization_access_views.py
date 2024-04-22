@@ -3,8 +3,8 @@ from aiohttp import web
 # USER ORGANIZATION ACCESS
 async def get_user_organization_access(request):
     try:
-        data = await request.json()
-        user_id = data['user_id']
+        print(request.query)
+        user_id = int(request.query.get('user_id'))
         organizations = await request.app['db_connection'].fetch('''
             SELECT * FROM user_organization_access WHERE user_id = $1
         ''', user_id)
