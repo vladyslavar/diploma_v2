@@ -3,8 +3,7 @@ from aiohttp import web
 # ORGANIZATIONS
 async def get_organization(request):
     try:
-        data = await request.json()
-        organization_id = data['organization_id']
+        organization_id = int(request.query.get('organization_id'))
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
         ''', organization_id)
@@ -23,15 +22,10 @@ async def get_organization(request):
 async def create_organization(request):
     try:
         data = await request.json()
+
         organization_name = data['organization_name']
-        owner_id = data['owner_id']
-        # if data['created_at'] == 'now':  # PAY ATTENTION TO THIS LINE
-        #     await request.app['db_connection'].execute('''
-        #     INSERT INTO organization (name, owner_id)
-        #     VALUES ($1, $2)
-        # ''', organization_name, owner_id)
-        # else:
-        #created_at = data['created_at']
+        owner_id = int(data['owner_id'])
+    
         await request.app['db_connection'].execute('''
         INSERT INTO organization (name, owner_id, created_at)
         VALUES ($1, $2, CURRENT_TIMESTAMP)
@@ -46,10 +40,11 @@ async def create_organization(request):
 async def update_organization_name(request):
     try:
         data = await request.json()
+
         organization_name = data['organization_name']
         new_organization_name = data['new_organization_name']
-        user_id = data['user_id']
-        organization_id = data['organization_id']
+        user_id = int(data['user_id'])
+        organization_id = int(data['organization_id'])
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
@@ -78,9 +73,10 @@ async def update_organization_name(request):
 async def update_organization_owner(request):
     try:
         data = await request.json()
-        organization_id = data['organization_id']
-        user_id = data['user_id']
-        new_owner_id = data['new_owner_id']
+
+        organization_id = int(data['organization_id'])
+        user_id = int(data['user_id'])
+        new_owner_id = int(data['new_owner_id'])
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
@@ -116,8 +112,8 @@ async def update_organization_owner(request):
 async def delete_organization(request):
     try:
         data = await request.json()
-        organization_id = data['organization_id']
-        user_id = data['user_id']
+        organization_id = int(data['organization_id'])
+        user_id = int(data['user_id'])
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1

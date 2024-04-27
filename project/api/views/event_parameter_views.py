@@ -3,8 +3,7 @@ from aiohttp import web
 # EVENT PARAMETERS
 async def get_event_parameters(request):
     try:
-        data = await request.json()
-        event_id = data['event_id']
+        event_id = int(request.query.get('event_id'))
         parameters = await request.app['db_connection'].fetch('''
             SELECT * FROM event_parameter WHERE event_id = $1
         ''', event_id)
@@ -18,7 +17,8 @@ async def get_event_parameters(request):
 async def add_event_parameter(request):
     try:
         data = await request.json()
-        event_id = data['event_id']
+
+        event_id = int(data['event_id'])
         parameter_name = data['parameter_name']
         parameter_value = data['parameter_value']
 
@@ -50,9 +50,10 @@ async def add_event_parameter(request):
 async def update_event_parameter_value(request):
     try:
         data = await request.json()
-        event_id = data['event_id']
+
+        event_id = int(data['event_id'])
         parameter_name = data['parameter_name']
-        new_parameter_value = data['parameter_value']
+        new_parameter_value = data['new_parameter_value']
 
         is_event_exists = await request.app['db_connection'].fetchval('''
             SELECT id FROM event WHERE id = $1
@@ -81,7 +82,7 @@ async def update_event_parameter_value(request):
 async def delete_event_parameter(request):
     try:
         data = await request.json()
-        event_id = data['event_id']
+        event_id = int(data['event_id'])
         parameter_name = data['parameter_name']
 
         is_event_exists = await request.app['db_connection'].fetchval('''

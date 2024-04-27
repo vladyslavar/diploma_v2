@@ -27,6 +27,7 @@ async def get_user_account(request):
 async def create_user_account(request):
     try:
         data = await request.json()
+
         username = data['username']
         password = data['password']
 
@@ -50,6 +51,7 @@ async def create_user_account(request):
 async def update_user_account_password(request):
     try:
         data = await request.json()
+
         username = data['username']
         old_password = data['old_password']
         new_password = data['new_password']
@@ -78,6 +80,7 @@ async def update_user_account_password(request):
 async def delete_user_account(request):
     try:
         data = await request.json()
+
         username = data['username']
         password = data['password']
 

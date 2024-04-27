@@ -17,6 +17,7 @@ async def get_common_events(request):
 async def create_common_event(request):
     try:
         data = await request.json()
+
         event_name = data['event_name']
         event_description = data['event_description']
 
@@ -41,6 +42,7 @@ async def create_common_event(request):
 async def update_common_event(request):
     try:
         data = await request.json()
+
         event_name = data['event_name']
         new_event_name = data['new_event_name']
         new_event_description = data['new_event_description']
@@ -65,6 +67,7 @@ async def update_common_event(request):
 async def delete_common_event(request):
     try:
         data = await request.json()
+
         event_name = data['event_name']
 
         event = await request.app['db_connection'].fetchrow('''

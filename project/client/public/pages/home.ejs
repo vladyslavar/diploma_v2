@@ -7,22 +7,13 @@
 </head>
 <body>
     <div class="container">
-        <div class="side_menu">
-            <h1>EHApp</h1>
+        <div class="header">
+            <a href="/home">EHApp</a>
             <ul>
-                <li><a href="/home">Home</a></li>
-            </ul>
-            <ul>
-                <li><a href="/applications">Applications</a></li>
-                <li><a href="/organization">Organization</a></li>
-            </ul>
-            <ul>
-                <li><a href="/keys">Keys</a></li>
-                <li><a href="/management">Management</a></li>
-            </ul>
-            <ul>
-                <li><a href="/profile">Profile</a></li>
-                <li><a href="/logout">Logout</a></li>
+                <li><a href="">Discover</a></li> <!-- Discover organizations and apps, statistic for each by some parameters entered-->
+                <li><a href="/all_organizations">Configure</a></li> <!-- Configure organizations and apps, possibilities to collect stats, manage given keys -->
+                <li><a href="">Monitor</a></li> <!-- Monitor organizations and apps, statistic for each (just choose and see common data)-->
+                <li><a href="">Profile</a></li> <!--  -->
             </ul>
         </div>
         <div class="main_content">
@@ -31,7 +22,7 @@
                 <ul>
                     <% available_organizations.forEach((org, index) => { %>
                         <li>
-                            <a href="/organization/<%= org.id %>"><%= org.name %></a>
+                            <a href="/organization/<%= org.id %>"><%= org.name.name %></a>
                             <ul>
                                 <% available_apps[index].forEach(app => { %>
                                     <li><%= app.name %></li>

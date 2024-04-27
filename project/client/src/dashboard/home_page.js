@@ -29,18 +29,29 @@ exports.homePage = async (req, res) => {
             available_organizations = available_organizations.slice(0, 5);
         }
 
-        const appRequests = available_organizations.map(org => {
-            return axios.get('http://error_handler_api:8080/apps', {
+        for (let i = 0; i < available_organizations.length; i++) {
+            const org = available_organizations[i];
+            const response = await axios.get('http://error_handler_api:8080/organization', {
                 params: {
-                    organization_id: org.id,
+                    organization_id: org.organization_id
+                }
+            });
+            org.name = response.data;
+            available_organizations[i] = org;
+        }
+
+        let available_apps = [];
+        for (let i = 0; i < available_organizations.length; i++) {
+            const org = available_organizations[i];
+            const responseApps = await axios.get('http://error_handler_api:8080/apps', {
+                params: {
+                    organization_id: org.organization_id,
                     user_id
                 }
             });
-        });
-
-        const responsesApps = await Promise.all(appRequests);
-
-        const available_apps = responsesApps.map(response => response.data);
+            const apps = responseApps.data || [];
+            available_apps.push(apps);
+        }
 
         console.log("available apps: ", available_apps);
         console.log("available orgs: ", available_organizations);

@@ -35,8 +35,9 @@ async def get_available_apps(request):
 async def register_app(request):
     try:
         data = await request.json()
-        organization_id = data['organization_id']
-        user_id = data['user_id']
+
+        organization_id = int(data['organization_id'])
+        user_id = int(data['user_id'])
         app_name = data['app_name']
         api_key = data['api_key']
 
@@ -72,10 +73,11 @@ async def register_app(request):
 async def update_app_name(request):
     try:
         data = await request.json()
+
         app_name = data['app_name']
         new_app_name = data['new_app_name']
-        user_id = data['user_id']
-        organization_id = data['organization_id']
+        user_id = int(data['user_id'])
+        organization_id = int(data['organization_id'])
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
@@ -116,10 +118,11 @@ async def update_app_name(request):
 async def update_app_api_key(request):
     try:
         data = await request.json()
+
         app_name = data['app_name']
         new_api_key = data['new_api_key']
-        user_id = data['user_id']
-        organization_id = data['organization_id']
+        user_id = int(data['user_id'])
+        organization_id = int(data['organization_id'])
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
@@ -151,9 +154,10 @@ async def update_app_api_key(request):
 async def delete_app(request):
     try:
         data = await request.json()
-        app_name = data['app_name']
-        user_id = data['user_id']
-        organization_id = data['organization_id']
+
+        app_id = int(data['app_id'])
+        user_id = int(data['user_id'])
+        organization_id = int(data['organization_id'])
 
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
@@ -162,8 +166,8 @@ async def delete_app(request):
             return web.Response(text="Organization is not found", status=400)
 
         app = await request.app['db_connection'].fetchrow('''
-            SELECT * FROM app WHERE name = $1 AND organization_id = $2
-        ''', app_name, organization_id)
+            SELECT * FROM app WHERE id = $1
+        ''', app_id)
         if app is None:
             return web.Response(text="App is not found", status=400)
         
@@ -175,8 +179,8 @@ async def delete_app(request):
         
         await request.app['db_connection'].execute('''
             DELETE FROM app
-            WHERE name = $1 AND organization_id = $2
-        ''', app_name, organization_id)
+            WHERE id = $1
+        ''', app_id)
         return web.json_response({'status': 'success'})
     except KeyError:
         return web.Response(text="Missing app_name", status=400)

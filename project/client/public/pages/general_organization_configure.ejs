@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home">EHApp</a>
+            <ul>
+                <li><a href="">Discover</a></li> <!-- Discover organizations and apps, statistic for each by some parameters entered-->
+                <li><a href="">Configure</a></li> <!-- Configure organizations and apps, possibilities to collect stats, manage given keys -->
+                <li><a href="">Monitor</a></li> <!-- Monitor organizations and apps, statistic for each (just choose and see common data)-->
+                <li><a href="">Profile</a></li> <!--  -->
+            </ul>
+        </div>
+        <div class="side_panel">
+            <ul>
+                <li><a href="/all_organizations">Organizations</a></li>
+                <li><a href="/configure/apps">Apps</a></li>
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="create_organization">
+                <button>Create Organization</button>
+                <form action="/create_organization" method="post">
+                    <input type="text" name="organization_name" placeholder="Organization Name">
+                    <button type="submit">Create</button>
+                </form>
+            </div>
+
+            <div class="owned_organizations">
+                <h2>Owned Organizations</h2>
+                <ul>
+                    <% owned_organizations.forEach(org => { %>
+                        <li>
+                            <div class="organization_conatiner">
+                                <a href="/organization_configure/<%= org.id %>"><%= org.name %></a>
+                                <div class="delete_organization_container">
+                                    <form action="/delete_organization" method="post">
+                                        <input type="hidden" name="organization_id" value="<%= org.id %>">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+
+            </div>
+
+            <!--
+                <div class="member_organizations">
+                <h2>Member Organizations</h2>
+                <ul>
+                    <% member_organizations.forEach(org => { %>
+                        <li>
+                            <div class="organization_conatiner">
+                                <a href="/organization_configure/<%= org.id %>"><%= org.name.name %></a>
+                                <div class="delete_organization_container">
+                                    <form action="/delete_organization" method="post">
+                                        <input type="hidden" name="organization_id" value="<%= org.id %>">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+
+            </div>
+            -->
+        </div>
+    </div>
+    
+</body>
+</html>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const createOrganizationButton = document.querySelector('.create_organization button');
+        const createOrganizationForm = document.querySelector('.create_organization form');
+
+        createOrganizationButton.addEventListener('click', () => {
+            createOrganizationForm.style.display = 'block';
+        });
+
+        createOrganizationForm.addEventListener('submit', () => {
+            createOrganizationForm.style.display = 'none';
+        });
+
+        const deleteOrganizationButtons = document.querySelectorAll('.delete_organization_container button');
+
+        deleteOrganizationButtons.forEach(button => {
+            button.addEventListener('click', (event) => {
+                const result = confirm('Are you sure you want to delete this organization?');
+                if (!result) {
+                    event.preventDefault();
+                }
+            });
+        });
+    });
+</script>

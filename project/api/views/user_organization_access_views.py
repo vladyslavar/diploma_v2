@@ -15,10 +15,26 @@ async def get_user_organization_access(request):
         return web.Response(text="Missing user_id", status=400)
     
 
+async def get_user_organization_owner_access(request):
+    try:
+        user_id = int(request.query.get('user_id'))
+        organizations = await request.app['db_connection'].fetch('''
+            SELECT * FROM organization WHERE owner_id = $1
+        ''', user_id)
+        
+        json_response = [dict(org) for org in organizations]
+        for org in json_response:
+            datetime = org['created_at']
+            org['created_at'] = datetime.strftime('%Y-%m-%d %H:%M:%S')
+        
+        return web.json_response(json_response)
+    except KeyError:
+        return web.Response(text="Missing user_id", status=400)
+    
+
 async def get_organization_users(request):
     try:
-        data = await request.json()
-        organization_id = data['organization_id']
+        organization_id = int(request.query.get('organization_id'))
         users = await request.app['db_connection'].fetch('''
             SELECT * FROM user_organization_access WHERE organization_id = $1
         ''', organization_id)
@@ -32,9 +48,10 @@ async def get_organization_users(request):
 async def grant_user_organization_access(request):
     try:
         data = await request.json()
-        organization_id = data['organization_id']
-        user_to_grant_id = data['user_to_grant_id']
-        current_user_id = data['current_user_id']
+
+        organization_id = int(data['organization_id'])
+        user_to_grant_id = int(data['user_to_grant_id'])
+        current_user_id = int(data['current_user_id'])
         
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1
@@ -69,9 +86,10 @@ async def grant_user_organization_access(request):
 async def revoke_user_organization_access(request):
     try:
         data = await request.json()
-        organization_id = data['organization_id']
-        user_to_revoke_id = data['user_to_revoke_id']
-        current_user_id = data['current_user_id']
+
+        organization_id = int(data['organization_id'])
+        user_to_revoke_id = int(data['user_to_revoke_id'])
+        current_user_id = int(data['current_user_id'])
         
         organization = await request.app['db_connection'].fetchrow('''
             SELECT * FROM organization WHERE id = $1

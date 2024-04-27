@@ -8,8 +8,7 @@ from aiohttp import web
 
 async def get_all_events(request):
     try:
-        data = await request.json()
-        app_id = data['app_id']
+        app_id = int(request.query.get('app_id'))
         app = await request.app['db_connection'].fetchrow('''
             SELECT * FROM app WHERE id = $1
         ''', app_id)
@@ -34,9 +33,8 @@ async def get_all_events(request):
 
 async def get_event(request):
     try:
-        data = await request.json()
-        app_id = data['app_id']
-        event_name = data['event_name']
+        app_id = int(request.query.get('app_id'))
+        event_name = int(request.query.get('event_name'))
         app = await request.app['db_connection'].fetchrow('''
             SELECT * FROM app WHERE id = $1
         ''', app_id)
@@ -64,7 +62,8 @@ async def get_event(request):
 async def add_custom_event(request):
     try:
         data = await request.json()
-        app_id = data['app_id']
+
+        app_id = int(data['app_id'])
         event_name = data['event_name']
         event_description = data['event_description']
         
@@ -109,7 +108,8 @@ async def add_custom_event(request):
 async def delete_custom_event(request):
     try:
         data = await request.json()
-        app_id = data['app_id']
+
+        app_id = int(data['app_id'])
         event_name = data['event_name']
 
         app = await request.app['db_connection'].fetchrow('''

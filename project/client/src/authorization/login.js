@@ -10,7 +10,6 @@ exports.login = (req, res) => {
 
 exports.submitLoginForm = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body);
     console.log(username + ' ' + password);
     await axios.get('http://error_handler_api:8080/login', {
         params: {
