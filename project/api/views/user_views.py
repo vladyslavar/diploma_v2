@@ -22,6 +22,22 @@ async def get_user_account(request):
             return web.Response(text="Incorrect password", status=400)
     except KeyError:
         return web.Response(text="Bad Request", status=400)
+    
+
+
+async def get_user_by_id(request):
+    user_id = int(request.query.get('user_id'))
+    response = await request.app['db_connection'].fetchrow('''
+            SELECT * FROM user_account WHERE id = $1
+        ''', user_id)
+    if response is None:
+        return web.json_response({'status': 'error',
+                                    'message': 'User is not found',
+                                    'user_account': {}})
+    json_response = dict(response)
+    return web.json_response({'status': 'success',
+                              'user_id': user_id,
+                              'user_account': json_response})
 
 
 async def create_user_account(request):
@@ -41,11 +57,16 @@ async def create_user_account(request):
             INSERT INTO user_account (username, password)
             VALUES ($1, $2)
         ''', username, password)
+
+        created_user = await request.app['db_connection'].fetchrow('''
+            SELECT * FROM user_account WHERE username = $1
+        ''', username)
+        json_response = dict(created_user)
+
         return web.json_response({'status': 'success',
-                                  'username': username,
-                                  'password': password})
+                                  'user_account': json_response})
     except KeyError:
-        return web.Response(text="Missing username or password", status=400)
+        return web.Response(text=f"Missing username or password: {request.json()}", status=400)
     
 
 async def update_user_account_password(request):

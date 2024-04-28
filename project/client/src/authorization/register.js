@@ -22,11 +22,9 @@ exports.submitRegisterForm = async (req, res) => {
         return;
     }
 
-    await axios.get('http://error_handler_api:8080/registration', {
-        params: {
-            username,
-            password
-        }
+    await axios.post('http://error_handler_api:8080/create_account', {
+        username,
+        password
     })
     .then((response) => {
         user_id = response.data.user_account.id;

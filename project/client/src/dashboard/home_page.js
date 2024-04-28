@@ -53,9 +53,6 @@ exports.homePage = async (req, res) => {
             available_apps.push(apps);
         }
 
-        console.log("available apps: ", available_apps);
-        console.log("available orgs: ", available_organizations);
-
         res.render('home.ejs', {
             available_organizations,
             available_apps

@@ -25,9 +25,6 @@ exports.availableOrganizations = async (req, res) => {
 
         let owned_organizations = all_owned_organizations_responce.data || [];
 
-        console.log("owned_organizations");
-        console.log(owned_organizations);
-
         let member_organizations = [];
         // include only organizations that are not owned by the user
         for (let i = 0; i < available_organizations.length; i++) {
@@ -49,10 +46,6 @@ exports.availableOrganizations = async (req, res) => {
             member_organizations[i] = org;
         }
 
-        console.log("member_organizations");
-        console.log(member_organizations);
-
-
         res.render('general_organization_configure.ejs', {
             member_organizations,
             owned_organizations
@@ -64,7 +57,11 @@ exports.availableOrganizations = async (req, res) => {
     }
 }
 
-exports.createOrganization = async (req, res) => {
+exports.createOrganizationPage = (req, res) => {
+    res.render('create_organization.ejs');
+}
+
+exports.createOrganizationForm = async (req, res) => {
     const owner_id = req.session.user_id;
     const { organization_name } = req.body;
 

@@ -24,11 +24,9 @@
         </div>
         <div class="main_content">
             <div class="create_organization">
-                <button>Create Organization</button>
                 <form action="/create_organization" method="post">
-                    <input type="text" name="organization_name" placeholder="Organization Name">
-                    <button type="submit">Create</button>
-                </form>
+                    <button type="submit">Create Organization</button>
+                
             </div>
 
             <div class="owned_organizations">
@@ -37,7 +35,7 @@
                     <% owned_organizations.forEach(org => { %>
                         <li>
                             <div class="organization_conatiner">
-                                <a href="/organization_configure/<%= org.id %>"><%= org.name %></a>
+                                <a href="/configure/organization/<%= org.id %>"><%= org.name %></a>
                                 <div class="delete_organization_container">
                                     <form action="/delete_organization" method="post">
                                         <input type="hidden" name="organization_id" value="<%= org.id %>">

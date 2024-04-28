@@ -37,7 +37,7 @@
                             <div class="organization_container">
                                 <h4 class="organization_names"> <%= org.name %> </h4>
                                 <% org.apps.forEach(app => { %>
-                                    <a href="/configure/single_app/<%= app.id %>"><%= app.name %></a>
+                                    <a href="/configure/app/<%= app.id %>"><%= app.name %></a>
                                     <div class="delete_app_container">
                                         <form action="/delete_app" method="post">
                                             <input type="hidden" name="app_id" value="<%= app.id %>">

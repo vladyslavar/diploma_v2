@@ -16,6 +16,7 @@ def setup_routes(app):
     app.router.add_get('/error', error)
     #user
     app.router.add_get('/login', get_user_account)
+    app.router.add_get('/user_info', get_user_by_id)
     app.router.add_post('/create_account', create_user_account)
     app.router.add_post('/update_account_password', update_user_account_password)
     app.router.add_post('/delete_account', delete_user_account)

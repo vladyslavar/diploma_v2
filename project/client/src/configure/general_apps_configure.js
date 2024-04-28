@@ -18,9 +18,6 @@ exports.availableApps = async (req, res) => {
 
         let owned_organizations = all_owned_organizations_responce.data || [];
 
-        console.log("owned_organizations");
-        console.log(owned_organizations);
-
         let empty_orgs = [];
         for (let i = 0; i < owned_organizations.length; i++) {
             let current_organization = owned_organizations[i];
@@ -34,9 +31,6 @@ exports.availableApps = async (req, res) => {
         }
 
         owned_organizations_with_apps = owned_organizations.filter(org => org.apps.length > 0);
-
-        console.log("orgs with apps:");
-        console.log(owned_organizations_with_apps);
 
         res.render('general_apps_configure.ejs', {
             owned_organizations,
@@ -62,9 +56,6 @@ exports.createApp = async (req, res) => {
     let {organizations} = req.body;
 
     organizations = JSON.parse(organizations);
-
-    console.log("data for form to create app")
-    console.log(organizations);
 
     res.render('create_app.ejs', {
         organizations
