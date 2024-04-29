@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home">EHApp</a>
+            <ul>
+                <li><a href="">Discover</a></li> <!-- Discover organizations and apps, statistic for each by some parameters entered-->
+                <li><a href="/all_organizations">Configure</a></li> <!-- Configure organizations and apps, possibilities to collect stats, manage given keys -->
+                <li><a href="">Monitor</a></li> <!-- Monitor organizations and apps, statistic for each (just choose and see common data)-->
+                <li><a href="user_profile">Profile</a></li> <!--  -->
+            </ul>
+        </div>
+        <div class="main_content">
+            <div class="user_info">
+                <h2>User Info</h2>
+                <div class="user_photo">
+                    <img src="" alt="">
+                </div>
+                <div class="user_data">
+                    <p><%= user.user_account.username %></p>
+            </div>
+
+            <div class="profile_edit_container">
+                <div class="expand_header">
+                    <h2>Profile Edit</h2>
+                    <button class="expand_button">Expand</button>
+                </div>
+                <div class="profile_edit_form">
+                    <form action="/edit_profile" method="post">
+                        <input type="text" name="old_password" placeholder="Your current password">
+                        <input type="text" name="new_password" placeholder="New password">
+                        <input type="password" name="repeat_new_password" placeholder="Repeat new password">
+                        <button type="submit">Edit</button>
+                    </form>
+                </div>
+                <div class="delete_profile_container">
+                    <button>Delete Profile</button>
+                    <form action="/delete_profile" method="post">
+                        <input type="text" name="password" placeholder="Enter your password to delete">
+                        <button type="submit">Delete</button>
+                </div>
+            </div>
+            
+            
+        </div>
+    </div>
+    
+</body>
+</html>
