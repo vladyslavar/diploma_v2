@@ -23,7 +23,13 @@
                     <img src="" alt="">
                 </div>
                 <div class="user_data">
-                    <p><%= user.user_account.username %></p>
+                    <p><%= user.username %></p>
+            </div>
+
+            <div class="logout_container">
+                <form action="/logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
             </div>
 
             <div class="profile_edit_container">
@@ -32,16 +38,16 @@
                     <button class="expand_button">Expand</button>
                 </div>
                 <div class="profile_edit_form">
-                    <form action="/edit_profile" method="post">
-                        <input type="text" name="old_password" placeholder="Your current password">
-                        <input type="text" name="new_password" placeholder="New password">
+                    <form action="/update_user_password" method="post">
+                        <input type="password" name="old_password" placeholder="Your current password">
+                        <input type="password" name="new_password" placeholder="New password">
                         <input type="password" name="repeat_new_password" placeholder="Repeat new password">
                         <button type="submit">Edit</button>
                     </form>
                 </div>
                 <div class="delete_profile_container">
                     <button>Delete Profile</button>
-                    <form action="/delete_profile" method="post">
+                    <form action="/delete_user_profile" method="post">
                         <input type="text" name="password" placeholder="Enter your password to delete">
                         <button type="submit">Delete</button>
                 </div>

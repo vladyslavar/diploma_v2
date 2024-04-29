@@ -33,5 +33,5 @@ exports.initializeRoutes = (app) => {
     app.get('/user_profile', user_profile.getUserProfile);
     app.post('/update_user_password', user_profile.updateProfilePassword);
     app.post('/delete_user_profile', user_profile.deleteProfile);
-    app.get('/logout', user_profile.logout);
+    app.post('/logout', user_profile.logout);
 }

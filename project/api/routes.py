@@ -34,6 +34,7 @@ def setup_routes(app):
     app.router.add_post('/revoke_access', revoke_user_organization_access)
     #app
     app.router.add_get('/apps', get_available_apps)
+    app.router.add_get('/app', get_app_by_id)
     app.router.add_post('/register_app', register_app)
     app.router.add_post('/update_app_name', update_app_name)
     app.router.add_post('/update_app_key', update_app_api_key)

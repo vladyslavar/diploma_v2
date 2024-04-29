@@ -32,6 +32,25 @@ async def get_available_apps(request):
         return web.Response(text="Missing organization_name or user_id", status=400)
     
 
+async def get_app_by_id(request):
+    try:
+        app_id = int(request.query.get('app_id'))
+
+        app = await request.app['db_connection'].fetchrow('''
+            SELECT * FROM app WHERE id = $1
+        ''', app_id)
+        if app is None:
+            return web.Response(text="App is not found", status=400)
+        
+        app = dict(app)
+        del app['api_key']
+        datetime = app['created_at']
+        app['created_at'] = datetime.strftime("%Y-%m-%d %H:%M:%S")
+        return web.json_response(app)
+    except KeyError:
+        return web.Response(text="Missing app_id or user_id", status=400)
+    
+
 async def register_app(request):
     try:
         data = await request.json()
@@ -74,43 +93,31 @@ async def update_app_name(request):
     try:
         data = await request.json()
 
-        app_name = data['app_name']
+        app_id = data['app_id']
         new_app_name = data['new_app_name']
         user_id = int(data['user_id'])
-        organization_id = int(data['organization_id'])
-
-        organization = await request.app['db_connection'].fetchrow('''
-            SELECT * FROM organization WHERE id = $1
-        ''', organization_id)
-        if organization is None:
-            return web.Response(text="Organization is not found", status=400)
 
         app = await request.app['db_connection'].fetchrow('''
-            SELECT * FROM app WHERE name = $1
-        ''', app_name)
+            SELECT * FROM app WHERE id = $1
+        ''', app_id)
         if app is None:
             return web.Response(text="App is not found", status=400)
         
+        organization_id = app['organization_id']
         orgonazation_owner_id = await request.app['db_connection'].fetchval('''
             SELECT owner_id FROM organization WHERE id = $1
         ''', organization_id)
         if user_id != orgonazation_owner_id:
             return web.Response(text="User is not authorized for the action", status=403)
         
-        names_of_apps_in_organization = await request.app['db_connection'].fetch('''
-            SELECT name FROM app WHERE organization_id = $1
-        ''', organization_id)
-        if new_app_name in [app['name'] for app in names_of_apps_in_organization]:
-            return web.Response(text="App with the new name already exists", status=400)
-        
         await request.app['db_connection'].execute('''
             UPDATE app
             SET name = $1
-            WHERE name = $2
-        ''', new_app_name, app_name)
+            WHERE id = $2
+        ''', new_app_name, app_id)
         return web.json_response({'status': 'success',
-                                  'old_app_name': app_name,
-                                  'new_app_name': new_app_name})
+                                    'app_name': new_app_name})
+        
     except KeyError:
         return web.Response(text="Missing app_name or new_app_name", status=400)
     
@@ -119,21 +126,17 @@ async def update_app_api_key(request):
     try:
         data = await request.json()
 
-        app_name = data['app_name']
+        app_id = data['app_id']
         new_api_key = data['new_api_key']
         user_id = int(data['user_id'])
-        organization_id = int(data['organization_id'])
 
-        organization = await request.app['db_connection'].fetchrow('''
-            SELECT * FROM organization WHERE id = $1
-        ''', organization_id)
-        if organization is None:
-            return web.Response(text="Organization is not found", status=400)
-
-        app = await request.app['db_connection'].fetchrow('''SELECT * FROM app WHERE name = $1 AND organization_id = $2''', app_name, organization_id)
+        app = await request.app['db_connection'].fetchrow('''
+            SELECT * FROM app WHERE id = $1
+        ''', app_id)
         if app is None:
             return web.Response(text="App is not found", status=400)
         
+        organization_id = app['organization_id']
         orgonazation_owner_id = await request.app['db_connection'].fetchval('''
             SELECT owner_id FROM organization WHERE id = $1
         ''', organization_id)
@@ -143,10 +146,12 @@ async def update_app_api_key(request):
         await request.app['db_connection'].execute('''
             UPDATE app
             SET api_key = $1
-            WHERE name = $2 AND organization_id = $3
-        ''', new_api_key, app_name, organization_id)
+            WHERE id = $2
+        ''', new_api_key, app_id)
+
         return web.json_response({'status': 'success',
-                                  'app_name': app_name})
+                                    'new_api_key': new_api_key})
+        
     except KeyError:
         return web.Response(text="Missing app_name or new_api_key", status=400)
     
@@ -157,13 +162,6 @@ async def delete_app(request):
 
         app_id = int(data['app_id'])
         user_id = int(data['user_id'])
-        organization_id = int(data['organization_id'])
-
-        organization = await request.app['db_connection'].fetchrow('''
-            SELECT * FROM organization WHERE id = $1
-        ''', organization_id)
-        if organization is None:
-            return web.Response(text="Organization is not found", status=400)
 
         app = await request.app['db_connection'].fetchrow('''
             SELECT * FROM app WHERE id = $1
@@ -171,6 +169,7 @@ async def delete_app(request):
         if app is None:
             return web.Response(text="App is not found", status=400)
         
+        organization_id = app['organization_id']
         orgonazation_owner_id = await request.app['db_connection'].fetchval('''
             SELECT owner_id FROM organization WHERE id = $1
         ''', organization_id)
@@ -178,10 +177,9 @@ async def delete_app(request):
             return web.Response(text="User is not authorized for the action", status=403)
         
         await request.app['db_connection'].execute('''
-            DELETE FROM app
-            WHERE id = $1
+            DELETE FROM app WHERE id = $1
         ''', app_id)
-        return web.json_response({'status': 'success'})
+        
     except KeyError:
         return web.Response(text="Missing app_name", status=400)
     
