@@ -3,6 +3,9 @@ const uuid = require('uuid');
 
 exports.getApp = async (req, res) => { 
 
+    console.log("getApp");
+    console.log(req.session.user_id);
+
     const user_id = req.session.user_id;
     if (user_id === undefined) {
         res.redirect('/login');
@@ -10,10 +13,11 @@ exports.getApp = async (req, res) => {
     }
     const app_id = req.params.app_id;
 
+    console.log(app_id);
+
     const app_response = await axios.get('http://error_handler_api:8080/app', {
         params: {
-            app_id,
-            user_id
+            app_id
         }
     });
     const app = app_response.data || {};

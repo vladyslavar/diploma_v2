@@ -28,7 +28,7 @@ exports.initializeRoutes = (app) => {
     app.post('/create_app_form', app_configure.createAppForm);
     app.post('/delete_app', app_configure.deleteApp);
 
-    app.get('/configure/app/:appId', single_app_configure.getApp);
+    app.get('/configure/app/:app_id', single_app_configure.getApp);
 
     app.get('/user_profile', user_profile.getUserProfile);
     app.post('/update_user_password', user_profile.updateProfilePassword);

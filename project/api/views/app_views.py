@@ -1,4 +1,6 @@
 from aiohttp import web
+from dotenv import load_dotenv
+import os
 
 # APPS
 async def get_available_apps(request):
@@ -49,6 +51,25 @@ async def get_app_by_id(request):
         return web.json_response(app)
     except KeyError:
         return web.Response(text="Missing app_id or user_id", status=400)
+    
+
+async def check_app_api_key(request):
+    try:
+        api_key = request.query.get('api_key')
+
+        app = await request.app['db_connection'].fetchrow('''
+            SELECT * FROM app WHERE api_key = $1
+        ''', api_key)
+        if app is None:
+            return web.Response(text="Invalid API key", status=400)
+        
+        if app['api_key'] == api_key:
+            return web.json_response({'status': 'success',
+                                      'app_id': app['id']})
+        
+            
+    except KeyError:
+        return web.Response(text="Missing app_id or api_key", status=400)
     
 
 async def register_app(request):

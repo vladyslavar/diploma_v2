@@ -59,20 +59,20 @@ FOR EACH ROW
 EXECUTE FUNCTION REMOVE_ORGANIZATION_ACCESS();
 
 
-CREATE TABLE common_events (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description TEXT
-);
+-- CREATE TABLE common_events (
+--     id SERIAL PRIMARY KEY,
+--     name VARCHAR(255) NOT NULL,
+--     description TEXT
+-- );
 
-CREATE TABLE common_event_for_app (
-    id SERIAL PRIMARY KEY,
-    common_event_id INT NOT NULL,
-    app_id INT NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (common_event_id) REFERENCES common_events(id),
-    FOREIGN KEY (app_id) REFERENCES app(id)
-);
+-- CREATE TABLE common_event_for_app (
+--     id SERIAL PRIMARY KEY,
+--     common_event_id INT NOT NULL,
+--     app_id INT NOT NULL,
+--     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (common_event_id) REFERENCES common_events(id),
+--     FOREIGN KEY (app_id) REFERENCES app(id)
+-- );
 
 CREATE TABLE event (
     id SERIAL PRIMARY KEY,
