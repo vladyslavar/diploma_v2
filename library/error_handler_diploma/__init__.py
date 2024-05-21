@@ -1,1 +1,1 @@
-from .test import some_method
+from .error_handler import some_method, handle_error_by_non_parsed_response, handle_error_by_parsed_response

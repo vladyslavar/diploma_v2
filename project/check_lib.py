@@ -1,4 +1,5 @@
-from error_handler_diploma import test
+from error_handler_diploma import error_handler
 
-test.some_method()
+error_handler.some_method()
 
+error_handler.handle_error_by_non_parsed_response()

@@ -45,6 +45,34 @@ async def get_all_events(request):
         return web.Response(text="Missing app_id", status=400)
     
 
+async def get_last_n_events(request):
+    try:
+        app_id = int(request.query.get('app_id'))
+        n = int(request.query.get('n'))
+
+        app = await request.app['db_connection'].fetchrow('''
+            SELECT * FROM app WHERE id = $1
+        ''', app_id)
+
+        if app is None:
+            return web.Response(text="App is not found", status=400)
+        
+        events = await request.app['db_connection'].fetch('''
+            SELECT * FROM event WHERE app_id = $1 ORDER BY created_at DESC LIMIT $2
+        ''', app_id, n)
+
+        events_dict = [dict(event) for event in events]
+        for event in events_dict:
+            datetime = event['created_at']
+            event['created_at'] = datetime.strftime("%Y-%m-%d %H:%M:%S")
+
+        json_response = events_dict
+
+        return web.json_response(json_response)
+    except KeyError:
+        return web.Response(text="Missing app_id or n", status=400)
+
+
 async def get_event(request):
     try:
         app_id = int(request.query.get('app_id'))

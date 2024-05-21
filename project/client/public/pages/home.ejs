@@ -4,38 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EHApp Home</title>
+    <link rel="stylesheet" href="./styles/home_style.css">
+    <link rel="stylesheet" href="./styles/common_header_style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <a href="/home">EHApp</a>
-            <ul>
-                <li><a href="">Discover</a></li> <!-- Discover organizations and apps, statistic for each by some parameters entered-->
-                <li><a href="/all_organizations">Configure</a></li> <!-- Configure organizations and apps, possibilities to collect stats, manage given keys -->
-                <li><a href="">Monitor</a></li> <!-- Monitor organizations and apps, statistic for each (just choose and see common data)-->
-                <li><a href="user_profile">Profile</a></li> <!--  -->
-            </ul>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="">Monitor</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
         </div>
         <div class="main_content">
             <% if (available_organizations.length > 0) { %>
-                <h2>Available organizations</h2>
-                <ul>
+                <h2>Your organizations</h2>
+                <div>
                     <% available_organizations.forEach((org, index) => { %>
-                        <li>
-                            <a href="/organization/<%= org.id %>"><%= org.name.name %></a>
-                            <ul>
-                                <% available_apps[index].forEach(app => { %>
-                                    <li><%= app.name %></li>
-                                <% }) %>
-                            </ul>
-                        </li>
+                        <div class="organization-container">
+                            <div class="organization-row" data-index="<%= index %>">
+                                <p><%= org.name.name %></p>
+                                <span class="arrow down">&#1783;</span>
+                            </div>
+                            <div class="apps-list" id="apps-list-<%= index %>">
+                                <ul>
+                                    <% available_apps[index].forEach(app => { %>
+                                        <li><%= app.name %></li>
+
+                                        <div class="app_events">
+                                            <ul>
+                                                <% app.events.forEach(event => { %>
+                                                    <li>
+                                                        <p><%= event.name %>  <%= event.created_at %></p>
+                                                    </li>
+                                                <% }) %>
+                                            </ul>
+                                        </div>
+                                    <% }) %>
+                                </ul>
+                            </div>
+                        </div>
                     <% }) %>
-                </ul>
+                </div>
             <% } %>
-            
-            
         </div>
     </div>
-    
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const organizationRows = document.querySelectorAll('.organization-row');
+            organizationRows.forEach(row => {
+                row.addEventListener('click', () => {
+                    const index = row.getAttribute('data-index');
+                    const appsList = document.getElementById(`apps-list-${index}`);
+                    const arrow = row.querySelector('.arrow');
+                    if (appsList.style.display === 'none' || appsList.style.display === '') {
+                        appsList.style.display = 'flex';
+                        arrow.classList.remove('down');
+                        arrow.classList.add('up');
+                    } else {
+                        appsList.style.display = 'none';
+                        arrow.classList.remove('up');
+                        arrow.classList.add('down');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

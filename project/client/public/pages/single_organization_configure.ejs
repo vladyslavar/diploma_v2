@@ -4,61 +4,78 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EHApp Home</title>
+    <link rel="stylesheet" href="../../styles/common_header_style.css">
+    <link rel="stylesheet" href="../../styles/common_side_panel_style.css">
+    <link rel="stylesheet" href="../../styles/single_organization_configuration_style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <a href="/home">EHApp</a>
-            <ul>
-                <li><a href="">Discover</a></li> <!-- Discover organizations and apps, statistic for each by some parameters entered-->
-                <li><a href="">Configure</a></li> <!-- Configure organizations and apps, possibilities to collect stats, manage given keys -->
-                <li><a href="">Monitor</a></li> <!-- Monitor organizations and apps, statistic for each (just choose and see common data)-->
-                <li><a href="">Profile</a></li> <!--  -->
-            </ul>
-        </div>
-        <div class="side_panel">
-            <ul>
-                <li><a href="/all_organizations">Organizations</a></li>
-                <li><a href="/configure/apps">Apps</a></li>
-            </ul>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="">Monitor</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
         </div>
         <div class="main_content">
-
-            <div class="organization_data">
-                <p>Organization: <%= organization.name %></p>
-                <p>Owner: <%= organization.owner.username %></p>
-                <p>Date of creation: <%= organization.created_at %></p>
-            </div>
-
-            <div class="organization_apps">
-                <h2>Organization Apps</h2>
+            <div class="side_panel">
                 <ul>
-                    <% apps.forEach(app => { %>
-                        <li>
-                            <div class="app_container">
-                                <a href="/configure/app/<%= app.id %>"><%= app.name %></a>
-                            </div>
-                        </li>
-                    <% }) %>
-                </ul>
-
-            </div>
-
-            <div class="organization members">
-                <h2>Organization Members</h2>
-                <ul>
-                    <% members.forEach(member => { %>
-                        <li>
-                            <div class="member_container">
-                                <p><%= member.username %></p>
-                            </div>
-                        </li>
-                    <% }) %>
+                    <li><a href="/all_organizations">Organizations</a></li>
+                    <li><a href="/configure/apps">Apps</a></li>
                 </ul>
             </div>
 
+            <div class="organization_content">
+                <div class="organization_data">
+                    <p>Organization: <%= organization.name %></p>
+                    <p>Owner: <%= organization.owner.username %></p>
+                    <p>Date of creation: <%= organization.created_at %></p>
 
+                    <div class="edit_organization_container">
+                        <form action="/edit_organization" method="post">
+                            <input type="hidden" name="organization_id" value="<%= organization.id %>">
+                            <button type="submit">Edit</button>
+                        </form>
+                    </div>
+                </div>
+    
+                <div class="organization_apps">
+                    <h2>Organization Apps</h2>
+                    <ul>
+                        <% apps.forEach(app => { %>
+                            <li>
+                                <div class="app_container">
+                                    <a href="/configure/app/<%= app.id %>"><%= app.name %></a>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+    
+                </div>
+    
+                <div class="organization_members">
+                    <div class="members_add">
+                        <h2>Organization Members</h2>
+                        <form action="/add_member" method="post" >
+                            <input type="hidden" name="organization_id" value="<%= organization.id %>">
+                            <button type="submit">+</button>
+                    </div>
 
+                    <ul>
+                        <% members.forEach(member => { %>
+                            <li>
+                                <div class="member_container">
+                                    <p><%= member.username %></p>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     

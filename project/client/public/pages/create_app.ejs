@@ -4,35 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EHApp Home</title>
+    <link rel="stylesheet" href="../../styles/single_app_configure_style.css" type="text/css">
+    <link rel="stylesheet" href="../../styles/common_header_style.css" type="text/css">
+    <link rel="stylesheet" href="../../styles/common_side_panel_style.css" type="text/css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <a href="/home">EHApp</a>
-            <ul>
-                <li><a href="">Discover</a></li>
-                <li><a href="">Configure</a></li>
-                <li><a href="">Monitor</a></li>
-                <li><a href="">Profile</a></li>
-            </ul>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="">Monitor</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
         </div>
-        <div class="side_panel">
-            <ul>
-                <li><a href="/all_organizations">Organizations</a></li>
-                <li><a href="/configure/apps">Apps</a></li>
-            </ul>
-        </div>
+        
         <div class="main_content">
-            <div class="create_app_form">
-                <form action="/create_app_form" method="post">
-                    <input type="text" name="app_name" placeholder="App Name">
-                    <select name="organization_id">
-                        <% organizations.forEach(org => { %>
-                            <option value="<%= org.id %>"><%= org.name %></option>
-                        <% }); %>
-                    </select>
-                    <button type="submit">Create</button>
-                </form>
+            <div class="side_panel">
+                <ul>
+                    <li><a href="/all_organizations">Organizations</a></li>
+                    <li><a href="/configure/apps">Apps</a></li>
+                </ul>
+            </div>
+            <div class="application_content">
+                <div class="create_app_form">
+                    <form action="/create_app_form" method="post">
+                        <input type="text" name="app_name" placeholder="App Name">
+                        <select name="organization_id">
+                            <% organizations.forEach(org => { %>
+                                <option value="<%= org.id %>"><%= org.name %></option>
+                            <% }); %>
+                        </select>
+                        <button type="submit">Create</button>
+                    </form>
+                </div>
             </div>
 
         </div>

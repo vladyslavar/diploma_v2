@@ -48,6 +48,7 @@ def setup_routes(app):
     # app.router.add_post('/delete_common_event', delete_common_event)
     #custom events
     app.router.add_get('/events', get_all_events)
+    app.router.add_get('/last_events', get_last_n_events)
     app.router.add_get('/custom_event', get_event)
     app.router.add_post('/record_event', add_event)
     app.router.add_post('/delete_custom_event', delete_event)

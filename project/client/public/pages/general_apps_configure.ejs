@@ -4,54 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EHApp Home</title>
+    <link rel="stylesheet" href="../styles/app_configuration_style.css" type="text/css">
+    <link rel="stylesheet" href="../styles/common_header_style.css" type="text/css">
+    <link rel="stylesheet" href="../styles/common_side_panel_style.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
             <a href="/home">EHApp</a>
-            <ul>
-                <li><a href="">Discover</a></li>
-                <li><a href="">Configure</a></li>
-                <li><a href="">Monitor</a></li>
-                <li><a href="">Profile</a></li>
-            </ul>
-        </div>
-        <div class="side_panel">
-            <ul>
-                <li><a href="/all_organizations">Organizations</a></li>
-                <li><a href="/configure/apps">Apps</a></li>
-            </ul>
-        </div>
-        <div class="main_content">
-            <div class="create_app">
-                <form action="/create_app" method="post">
-                    <input type="hidden" name="organizations" value="<%= JSON.stringify(owned_organizations) %>" >
-                    <button type="submit">Create App</button>
-            </div>
-
-            <div class="apps_of_owned_organizations">
-                <h2>My Applications</h2>
+            <div class="navigation_options">
                 <ul>
-                    <% owned_organizations_with_apps.forEach(org => { %>
-                        <li>
-                            <div class="organization_container">
-                                <h4 class="organization_names"> <%= org.name %> </h4>
-                                <% org.apps.forEach(app => { %>
-                                    <a href="/configure/app/<%= app.id %>"><%= app.name %></a>
-                                    <div class="delete_app_container">
-                                        <form action="/delete_app" method="post">
-                                            <input type="hidden" name="app_id" value="<%= app.id %>">
-                                            <input type="hidden" name="organization_id" value="<%= org.id %>">
-                                            <button type="submit">Delete</button>
-                                        </form>
-                                    <% }) %>
-                            </div>
-                        </li>
-                    <% }) %>
+                    <li><a href="">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="">Monitor</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
+        </div>
+        
+        <div class="main_content">
+
+            <div class="side_panel">
+                <ul>
+                    <li><a href="/all_organizations">Organizations</a></li>
+                    <li><a href="/configure/apps">Apps</a></li>
                 </ul>
             </div>
+
+            <div class="application_data">
+                <div class="create_app">
+                    <form action="/create_app" method="post">
+                        <input type="hidden" name="organizations" value="<%= JSON.stringify(owned_organizations) %>" >
+                        <button type="submit">Create App</button>
+                </div>
+    
+                <div class="apps_of_owned_organizations">
+                    <h2>My Applications</h2>
+                    <ul>
+                        <% owned_organizations_with_apps.forEach(org => { %>
+                            <li>
+                                <div class="application_container">
+                                    <h4 class="organization_names"> <%= org.name %> </h4>
+                                    <% org.apps.forEach(app => { %>
+                                        <div class="organizations_applications_container">
+                                            <a href="/configure/app/<%= app.id %>"><%= app.name %></a>
+                                            <div class="delete_app_container">
+                                                <form action="/delete_app" method="post">
+                                                    <input type="hidden" name="app_id" value="<%= app.id %>">
+                                                    <input type="hidden" name="organization_id" value="<%= org.id %>">
+                                                    <button type="submit">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        
+                                        <% }) %>
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                </div>
+            </div>
+            
         </div>
     </div>
-
 </body>
 </html>

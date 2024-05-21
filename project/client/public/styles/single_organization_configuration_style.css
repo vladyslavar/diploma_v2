@@ -1,0 +1,129 @@
+.main_content{
+    width: 100%;
+}
+
+.organization_content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 75%;
+}
+
+.organization_data {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.organization_data p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.organization_apps, .organization_members {
+    margin-bottom: 20px;
+}
+
+.organization_apps ul, .organization_members ul {
+    list-style: none;
+    padding: 0;
+}
+
+.organization_apps ul li, .organization_members ul li {
+    margin-bottom: 10px;
+}
+
+.organization_apps .app_container a, .organization_members .member_container p {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.edit_organization_container {
+    margin-top: 10px;
+}
+
+.edit_organization_container button {
+    background-color: #45a049;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit_organization_container button:hover {
+    background-color: #357b39;
+}
+
+.member_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+
+}
+
+.member_container p{
+    padding: 5vw;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+.organization_apps .app_container a:hover {
+    text-decoration: underline;
+}
+
+.members_add {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.members_add form {
+    display: flex;
+    padding-left: 10px;
+}
+
+.members_add button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.members_add button:hover {
+    background-color: #45a049;
+}
+
+.create_organization_form input[type="text"]{
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.create_organization_form button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.create_organization_form button:hover {
+    background-color: #45a049;
+}

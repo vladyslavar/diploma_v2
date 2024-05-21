@@ -1,0 +1,90 @@
+.main_content{
+    display: flex;
+    flex-direction: row;
+}
+
+.organization_data {
+    flex-grow: 1;
+    padding-left: 20px;
+}
+
+.create_organization {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create_organization button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.create_organization button:hover {
+    background-color: #45a049;
+}
+
+.owned_organizations {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.owned_organizations h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.owned_organizations ul {
+    list-style: none;
+    padding: 0;
+}
+
+.owned_organizations ul li {
+    margin-bottom: 10px;
+}
+
+.organization_conatiner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.organization_conatiner:hover {
+    background-color: #f1f1f1;
+}
+
+.organization_conatiner a {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.organization_conatiner a:hover {
+    text-decoration: underline;
+}
+
+.delete_organization_container {
+    margin-left: 20px;
+}
+
+.delete_organization_container button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.delete_organization_container button .fa-trash {
+    color: #7a7a7a;
+}

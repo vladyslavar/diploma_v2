@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+    <link rel="stylesheet" href="../styles/app_api_key_display_style.css" type="text/css">
+</head>
+<body>
+    <div class="main_content">
+        <div class="application_content">
+            <p>This is an API key you have to use service for you application <b><%= app_name %></b>. This key will be displayed once. Please save it and keep confidence. In case API key will be lost you can regenerate and usenew one. </p>
+            <div class="api_key_display">
+                <h2>API Key</h2>
+                <p><%= api_key %></p>
+            </div>
+            <a href="/configure/apps">Okay, Back to applications</a>
+        </div>
+    </div>
+    
+</body>
+</html>

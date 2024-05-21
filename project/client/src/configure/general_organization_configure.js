@@ -91,7 +91,7 @@ exports.deleteOrganization = async (req, res) => {
             organization_id
         });
 
-        res.redirect('/organization_configure');
+        res.redirect('/all_organizations');
 
     } catch (error) {
         console.log(error);

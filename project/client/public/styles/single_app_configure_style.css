@@ -1,0 +1,69 @@
+.main_content{
+    width: 100%;
+}
+
+.application_content{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    width: 75%;
+}
+
+.app_data, .app_api_key {
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.app_data p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.edit_application_container {
+    margin-top: 10px;
+}
+
+.edit_application_container button {
+    background-color: #45a049;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.edit_application_container button:hover {
+    background-color: #357b39;
+}
+
+.create_app_form{
+    margin: 20px 0;
+}
+
+.create_app_form input[type="text"], .create_app_form select {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.create_app_form button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.create_app_form button:hover {
+    background-color: #45a049;
+}

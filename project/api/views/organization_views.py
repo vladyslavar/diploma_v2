@@ -126,6 +126,14 @@ async def delete_organization(request):
         ''', organization_id)
         if user_id != actual_owner_id:
             return web.Response(text="User is not authorized for the action", status=403)
+        
+        apps = await request.app['db_connection'].fetch('''
+            SELECT id FROM app WHERE organization_id = $1
+        ''', organization_id)
+        for app in apps:
+            await request.app['db_connection'].execute('''
+                DELETE FROM app WHERE id = $1
+            ''', app['id'])
 
         await request.app['db_connection'].execute('''
             DELETE FROM organization

@@ -41,6 +41,7 @@ exports.homePage = async (req, res) => {
         }
 
         let available_apps = [];
+        const events_num = 5;
         for (let i = 0; i < available_organizations.length; i++) {
             const org = available_organizations[i];
             const responseApps = await axios.get('http://error_handler_api:8080/apps', {
@@ -50,9 +51,23 @@ exports.homePage = async (req, res) => {
                 }
             });
             const apps = responseApps.data || [];
+
+            for (let j = 0; j < apps.length; j++) {
+                const app = apps[j];
+                const responseEvents = await axios.get('http://error_handler_api:8080/last_events', {
+                    params: {
+                        app_id: app.id,
+                        n: events_num
+                    }
+                });
+                const events = responseEvents.data || [];
+                app.events = events;
+                apps[j] = app;
+            }
             available_apps.push(apps);
         }
 
+        
         res.render('home.ejs', {
             available_organizations,
             available_apps

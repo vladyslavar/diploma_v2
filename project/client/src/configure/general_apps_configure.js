@@ -85,7 +85,10 @@ exports.createAppForm = async (req, res) => {
             api_key
         });
 
-        res.redirect('/configure/apps');
+        res.render('app_api_key_display.ejs', {
+            api_key,
+            app_name
+        });
     }
     catch (error) {
         console.log(error);
@@ -103,6 +106,8 @@ exports.deleteApp = async (req, res) => {
     }
 
     const { organization_id, app_id } = req.body;
+    console.log('delete app: ' + app_id + ' ' + user_id + ' ' + organization_id);
+
 
     try{
         await axios.post('http://error_handler_api:8080/delete_app', {
@@ -115,6 +120,8 @@ exports.deleteApp = async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).send('Internal Server Error');
+        // socket hang up error
+        res.redirect('/configure/apps');
+        //res.status(500).send('Internal Server Error');
     }
 }
