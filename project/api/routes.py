@@ -49,12 +49,15 @@ def setup_routes(app):
     #custom events
     app.router.add_get('/events', get_all_events)
     app.router.add_get('/last_events', get_last_n_events)
+    app.router.add_get('/event', get_event)
+    app.router.add_get('/event_by_params', get_event_by_params)
     app.router.add_get('/custom_event', get_event)
     app.router.add_post('/record_event', add_event)
     app.router.add_post('/delete_custom_event', delete_event)
     #event parameters
     app.router.add_get('/event_parameters', get_event_parameters)
     app.router.add_get('/app_all_parameters', get_all_app_parameters)
+    app.router.add_get('/common_parameters', get_most_common_parameters_for_user)
     app.router.add_post('/add_event_parameter', add_event_parameter)
     app.router.add_post('/update_event_parameter', update_event_parameter_value)
     app.router.add_post('/delete_event_parameter', delete_event_parameter)

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+    <link rel="stylesheet" href="./styles/common_header_style.css" type="text/css">
+    <link rel="stylesheet" href="./styles/search_style.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home">EHApp</a>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="/search">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
+        </div>
+        
+        <div class="main_content">
+            <form id="searchForm" action="/make_search" method="post">
+                <label for="organizations">Select Organization:</label>
+                <select id="organizations" name="organizations">
+                    <option value="">--Select Organization--</option>
+                    <% available_organizations.forEach(function(org) { %>
+                        <option value="<%= org.organization_id %>"><%= org.name.name %></option>
+                    <% }); %>
+                </select>
+                <div id="selected_organizations"></div>
+        
+                <label for="apps">Select App:</label>
+                <select id="apps" name="apps">
+                    <option value="">--Select App--</option>
+                    <% available_apps.forEach(function(app) { %>
+                        <option value="<%= app.id %>"><%= app.name %></option>
+                    <% }); %>
+                </select>
+                <div id="selected_apps"></div>
+                <br>
+        
+                <label for="params">Select Parameter:</label>
+                <select id="params" name="params">
+                    <option value="">--Select Parameter--</option>
+                    <% common_params.forEach(function(param) { %>
+                        <option value="<%= param.param_key %>"><%= param.parameter_name %></option>
+                    <% }); %>
+                </select>
+                
+                <label for="search_line">Search Line:</label>
+                <input type="text" id="search_line" name="search_line">
+                <br>
+                
+                <input type="hidden" id="selected_organizations_input" name="selected_organizations">
+                <input type="hidden" id="selected_apps_input" name="selected_apps">
+                
+                <button type="submit">Search</button>
+            </form>
+
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            function updateHiddenInputs() {
+                var selectedOrganizations = [];
+                $('#selected_organizations .selected-item').each(function() {
+                    selectedOrganizations.push($(this).data('id'));
+                });
+                $('#selected_organizations_input').val(selectedOrganizations.join(','));
+
+                var selectedApps = [];
+                $('#selected_apps .selected-item').each(function() {
+                    selectedApps.push($(this).data('id'));
+                });
+                $('#selected_apps_input').val(selectedApps.join(','));
+            }
+
+            $('#organizations').change(function() {
+                var selectedText = $(this).find('option:selected').text();
+                var selectedValue = $(this).val();
+                console.log(selectedText);
+                console.log(selectedValue);
+                if (selectedValue) {
+                    var selectedItem = $('<div class="selected-item"></div>').text(selectedText).data('id', selectedValue);
+                    var removeBtn = $('<span class="remove-btn">x</span>').click(function() {
+                        $(this).parent().remove();
+                        updateHiddenInputs();
+                    });
+                    selectedItem.append(removeBtn);
+                    $('#selected_organizations').append(selectedItem);
+                    updateHiddenInputs();
+                }
+                $(this).val('');
+            });
+
+            $('#apps').change(function() {
+                var selectedText = $(this).find('option:selected').text();
+                var selectedValue = $(this).val();
+
+                console.log(selectedText);
+                console.log(selectedValue);
+
+                if (selectedValue) {
+                    var selectedItem = $('<div class="selected-item"></div>').text(selectedText).data('id', selectedValue);
+                    var removeBtn = $('<span class="remove-btn">x</span>').click(function() {
+                        $(this).parent().remove();
+                        updateHiddenInputs();
+                    });
+                    selectedItem.append(removeBtn);
+                    $('#selected_apps').append(selectedItem);
+                    updateHiddenInputs();
+                }
+                $(this).val('');
+            });
+
+            $('#params').change(function() {
+                var selectedText = $(this).find('option:selected').text();
+                var searchLine = $('#search_line');
+                searchLine.val(selectedText + ':');
+                $(this).val('');
+            });
+
+            $('#searchForm').submit(function() {
+                updateHiddenInputs();
+            });
+        });
+    </script>
+</body>
+</html>

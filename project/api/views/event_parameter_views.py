@@ -41,6 +41,40 @@ async def get_all_app_parameters(request):
     except KeyError:
         return web.Response(text="Missing app_id", status=400)
 
+
+async def get_most_common_parameters_for_user(request):
+    try:
+        user_id = int(request.query.get('user_id'))
+
+        common_events = await request.app['db_connection'].fetch('''
+            WITH UserAccessibleApps AS (
+                SELECT a.id AS app_id
+                FROM user_account ua
+                JOIN user_organization_access uoa ON ua.id = uoa.user_id
+                JOIN organization o ON uoa.organization_id = o.id
+                JOIN app a ON o.id = a.organization_id
+                WHERE ua.id = $1
+            ),
+            EventParametersCount AS (
+                SELECT ep.parameter_name, COUNT(*) AS parameter_count
+                FROM event_parameter ep
+                JOIN event e ON ep.event_id = e.id
+                WHERE e.app_id IN (SELECT app_id FROM UserAccessibleApps)
+                GROUP BY ep.parameter_name
+            )
+            SELECT parameter_name, parameter_count
+            FROM EventParametersCount   
+            ORDER BY parameter_count DESC
+            LIMIT 10;
+        ''', user_id)
+
+        json_response = [dict(param) for param in common_events]
+        return web.json_response(json_response)
+    
+    except KeyError:
+        return web.Response(text="Missing user_id", status=400)
+
+        
     
 
 async def add_event_parameter(request):

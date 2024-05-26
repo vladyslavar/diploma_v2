@@ -4,7 +4,6 @@ from error_handler_diploma import error_handler
 import subprocess
 
 async def provoke_error():
-    
     try:
         async with aiohttp.ClientSession() as session:
             async with session.get('http://localhost:8080/add_event_parameter') as response:
@@ -13,6 +12,18 @@ async def provoke_error():
 
     except Exception as e:
         print("Error: ", e)
+
+
+async def provoke_error_404():
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get('http://localhost:8080/dumb_pass') as response:
+                
+                return response
+
+    except Exception as e:
+        print("Error: ", e)
+
 
 
 
@@ -29,22 +40,22 @@ async def main():
 
 
     ### parsed response
-    params = {}
-    for key, value in responce.headers.items():
-        params[key] = value
+    # params = {}
+    # for key, value in responce.headers.items():
+    #     params[key] = value
 
-    parsed_responce = {
-        "app_id": api_key,
-        "event_name": str(responce.status) + " " + responce.reason,
-        "event_description": "",
-        "parameters": [
-            {"parameter_name": key, "parameter_value": value}
-                for key, value in params.items()
-            ]
-        }
+    # parsed_responce = {
+    #     "app_id": api_key,
+    #     "event_name": str(responce.status) + " " + responce.reason,
+    #     "event_description": "",
+    #     "parameters": [
+    #         {"parameter_name": key, "parameter_value": value}
+    #             for key, value in params.items()
+    #         ]
+    #     }
     
-    handled_parsed_error_responce = await error_handler.handle_error_by_parsed_response(parsed_responce)
-    print(handled_parsed_error_responce)
+    # handled_parsed_error_responce = await error_handler.handle_error_by_parsed_response(parsed_responce)
+    # print(handled_parsed_error_responce)
 
 
 

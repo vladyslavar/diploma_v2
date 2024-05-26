@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+    <link rel="stylesheet" href="./styles/common_header_style.css" type="text/css">
+    <link rel="stylesheet" href="./styles/search_results_style.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home">EHApp</a>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="/search">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
+        </div>
+        
+        <div class="main_content">
+            <% if (events_of_apps.length > 0) { %>
+                <h2>Search Results</h2>
+                <div>
+                    <% events_of_apps.forEach(event => { %>
+                        <div class="event-container">
+                            <form id="detailsForm" action="/search_details" method="post">
+                                <input type="hidden" name="event" value="<%= JSON.stringify(event) %>">
+                                <button type="submit"><%= event.name %>  <%= event.created_at %></button>
+                            </form>
+                            
+                        </div>
+                    <% }) %>
+                </div>
+            <% } %>
+            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+    <link rel="stylesheet" href="./styles/common_header_style.css" type="text/css">
+    <link rel="stylesheet" href="./styles/detailed_search_result_style.css.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home">EHApp</a>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="/search">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
+        </div>
+        
+        <div class="main_content">
+            <div class="event">
+                <p><%= event.name %> <%= event.description %> <%= event.created_at %></p>
+
+            </div>
+
+            <div class="event_parameters">
+                <% eventParams.forEach(function(parameter) { %>
+                    <p><strong><%= parameter.parameter_name %>:</strong> <%= parameter.parameter_value %></p>
+                <% }); %>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>

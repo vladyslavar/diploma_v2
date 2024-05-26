@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EHApp Home</title>
+    <link rel="stylesheet" href="../../styles/common_header_style.css">
+    <link rel="stylesheet" href="../../styles/monitor_app_style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/home">EHApp</a>
+            <div class="navigation_options">
+                <ul>
+                    <li><a href="/search">Discover</a></li>
+                    <li><a href="/all_organizations">Configure</a></li>
+                    <li><a href="user_profile">Profile</a></li>
+                </ul>
+            </div>   
+        </div>
+        <div class="main_content">
+            <h2>Event Dynamics Over Time</h2>
+            <canvas id="eventChart"></canvas>
+
+            <h2>Parameter Statistics</h2>
+            <canvas id="parameterChart"></canvas>
+        </div>
+    </div>
+   
+    <script>
+        const events = <%- JSON.stringify(events) %>;
+        const paramCounts = <%- JSON.stringify(paramCounts) %>;
+
+        const eventCounts = {};
+        events.forEach(event => {
+            const date = event.created_at.split(' ')[0];
+            if (eventCounts[date]) {
+                eventCounts[date]++;
+            } else {
+                eventCounts[date] = 1;
+            }
+        });
+
+        const labels = Object.keys(eventCounts);
+        const data = Object.values(eventCounts);
+
+        const ctxEvent = document.getElementById('eventChart').getContext('2d');
+        new Chart(ctxEvent, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Number of Events',
+                    data: data,
+                    borderColor: 'rgba(109, 156, 111, 1)',
+                    backgroundColor: 'rgba(155, 207, 157, 0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Date'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Events'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const paramLabels = paramCounts.map(param => `${param.parameter_name}: ${param.parameter_value}`);
+        const paramData = paramCounts.map(param => param.count);
+
+        const ctxParam = document.getElementById('parameterChart').getContext('2d');
+        new Chart(ctxParam, {
+            type: 'bar',
+            data: {
+                labels: paramLabels,
+                datasets: [{
+                    label: 'Count',
+                    data: paramData,
+                    borderColor: 'rgba(109, 156, 111, 1)',
+                    backgroundColor: 'rgba(155, 207, 157, 0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Count'
+                        },
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Parameter Name: Parameter Value'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

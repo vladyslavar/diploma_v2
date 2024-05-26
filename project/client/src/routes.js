@@ -6,6 +6,8 @@ app_configure = require('./configure/general_apps_configure.js');
 single_organization_configure = require('./configure/single_organization_configure.js');
 single_app_configure = require('./configure/single_app_configure.js');
 user_profile = require('./user_profile/user_profile.js');
+search = require('./dashboard/search_page.js');
+monitor_app = require('./dashboard/monitor_app_page.js');
 
 exports.initializeRoutes = (app) => {
     app.get('/login', login.login);
@@ -15,6 +17,8 @@ exports.initializeRoutes = (app) => {
     app.post('/submit-register-form', register.submitRegisterForm);
 
     app.get('/home', home.homePage);
+
+    app.get('/monitor/:app_id', monitor_app.monitorAppPage);
 
     app.get('/all_organizations', organization_configure.availableOrganizations);
     app.post('/create_organization', organization_configure.createOrganizationPage);
@@ -34,4 +38,8 @@ exports.initializeRoutes = (app) => {
     app.post('/update_user_password', user_profile.updateProfilePassword);
     app.post('/delete_user_profile', user_profile.deleteProfile);
     app.post('/logout', user_profile.logout);
+
+    app.get('/search', search.searchPage);
+    app.post('/make_search', search.search);
+    app.post('/search_details', search.detailedResult);
 }
