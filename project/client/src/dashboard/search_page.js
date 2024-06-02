@@ -178,13 +178,18 @@ exports.search = async (req, res) => {
     }
 
     events_of_apps = [];
-    eventsList.forEach(event => {
-        for (let i = 0; i < appsList.length; i++) {
-            if(event.app_id == appsList[i].id){
-                events_of_apps.push(event);
+    if (appsList.length == 0){
+       events_of_apps = eventsList;
+    }
+    else{ 
+        eventsList.forEach(event => {
+            for (let i = 0; i < appsList.length; i++) {
+                if(event.app_id == appsList[i].id){
+                    events_of_apps.push(event);
+                }
             }
-        }
-    });
+        });
+    }
 
     console.log("APPS LIST");
     console.log(appsList);
@@ -202,7 +207,7 @@ exports.search = async (req, res) => {
 exports.detailedResult = async (req, res) => {
     const user_id = req.session.user_id;
     const event = JSON.parse(req.body.event);
-    
+
     if (user_id === undefined) {
         res.redirect('/login');
         return;
